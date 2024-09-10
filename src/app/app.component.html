@@ -39,12 +39,17 @@
     width: 100%
   }
   .active {
-    fonr-weight: bold;
+    font-weight: bold;
     color:--orange-red;
+  }
+  .header-main {
+    text-align: center;
+    background-color: var(--red-to-pink-to-purple-vertical-gradient);
   }
 </style>
 
 <main class="main">
+  <div class="header-main"><h1>CoinGecko Coin Table</h1></div>
   <fetch-btn></fetch-btn>
   <app-data-table></app-data-table>
 

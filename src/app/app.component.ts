@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { DataTableComponent } from './data-table/data-table.component'
+import { FetchComponent } from './fetch.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [CommonModule, DataTableComponent, FetchComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

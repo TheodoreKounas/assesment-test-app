@@ -1,0 +1,10 @@
+<div *ngIf="data$ | async as data; else loading">
+  <ul>
+    <li *ngFor="let coin of data">
+      {{ coin.name }}: {{ coin.current_price }} USD
+    </li>
+  </ul>
+</div>
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>

@@ -5,6 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { loadData, loadDataSuccess, loadDataFailure } from './actions';
 
+//passing the data from rxjs api call to ngrx with error handling
 @Injectable()
 export class DataEffects {
   loadData$ = createEffect(() =>

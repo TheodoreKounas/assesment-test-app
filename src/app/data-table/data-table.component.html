@@ -1,54 +1,82 @@
-<div *ngIf="data$ | async as data; else loading">
-  <mat-table [dataSource]="data" class="mat-elevation-18">
+<div class="table-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Search</mat-label>
+    <input matInput (keyup)="applySearch($event)" placeholder="Search" #input>
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Filter by Name</mat-label>
+    <mat-select (selectionChange)="applyFilter($event, 'name')" [value]="selectedName">
+      <mat-option *ngFor="let name of uniqueNames" [value]="name">{{ name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Filter by Symbol</mat-label>
+    <mat-select (selectionChange)="applyFilter($event, 'symbol')" [value]="selectedSymbol">
+      <mat-option *ngFor="let symbol of uniqueSymbols" [value]="symbol">{{ symbol }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Filter by Market Cap</mat-label>
+      <mat-select (selectionChange)="applyFilter($event, 'market_cap')" [value]="selectedMarketCap">
+        <mat-option *ngFor="let market_cap of uniqueMarketCaps" [value]="market_cap">{{ market_cap }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
     <ng-container matColumnDef="id">
-      <mat-header-cell mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let coin"> {{coin.id}} </mat-cell>
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header sticky>ID</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let coin" sticky> {{coin.id}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <mat-header-cell mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let coin"> {{coin.name}} </mat-cell>
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header sticky>Name</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let coin" sticky> {{coin.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="symbol">
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let coin"> {{coin.symbol}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="price">
-      <mat-header-cell mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let coin"> {{coin.current_price}} $ </mat-cell>
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let coin"> {{coin.current_price | currency}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="market_cap">
-      <mat-header-cell mat-header-cell *matHeaderCellDef>Market Cap</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let coin"> {{coin.market_cap}} </mat-cell>
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>Market Cap</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let coin"> {{coin.market_cap | currency}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="total_volume">
-      <mat-header-cell mat-header-cell *matHeaderCellDef>Total Volume</mat-header-cell>
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>Total Volume</mat-header-cell>
       <mat-cell mat-cell *matCellDef="let coin"> {{coin.total_volume}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="high_24h">
-      <mat-header-cell mat-header-cell *matHeaderCellDef>High of last 24h</mat-header-cell>
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>High of last 24h</mat-header-cell>
       <mat-cell mat-cell *matCellDef="let coin"> {{coin.high_24h}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="low_24h">
-      <mat-header-cell mat-header-cell *matHeaderCellDef>Low of last 24h</mat-header-cell>
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>Low of last 24h</mat-header-cell>
       <mat-cell mat-cell *matCellDef="let coin"> {{coin.low_24h}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="price_change_percentage_24h">
-      <mat-header-cell mat-header-cell *matHeaderCellDef>Price Change (%)</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let coin"> {{coin.price_change_percentage_24h}} %</mat-cell>
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>Price Change (%)</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let coin"> {{coin.price_change_percentage_24h}}%</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="circulating_supply">
-      <mat-header-cell mat-header-cell *matHeaderCellDef>Circulating Supply</mat-header-cell>
+      <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>Circulating Supply</mat-header-cell>
       <mat-cell mat-cell *matCellDef="let coin"> {{coin.circulating_supply}} </mat-cell>
     </ng-container>
 
     <mat-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-row>
     <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>  
+  </mat-table> 
+
+  <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
-<ng-template #loading>
-  <p>Loading...</p>
-</ng-template>

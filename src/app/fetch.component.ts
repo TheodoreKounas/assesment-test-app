@@ -10,7 +10,7 @@ import { loadData } from './actions';
 })
 export class FetchComponent {
   constructor(private store: Store) {}
-
+//tester that shows if it works
   fetchData() {
     this.store.dispatch(loadData());
     console.log(loadData());

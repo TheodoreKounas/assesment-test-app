@@ -10,10 +10,13 @@ import { DataEffects } from './effects';
 import { ApiService } from './api.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { MatIconModule } from '@angular/material/icon';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideClientHydration(),provideHttpClient(), provideStore({ data: dataReducer }),
     provideEffects([DataEffects]),
-    ApiService, provideAnimationsAsync(), MatTableModule
+    ApiService, provideAnimationsAsync(), MatTableModule, MatPaginatorModule, HighchartsChartModule, MatIconModule
 ]
 };
